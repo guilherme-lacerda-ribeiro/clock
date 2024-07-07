@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="clock.ico" type="image/x-icon">
+    <title>Relógio</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        overflow: hidden;
+        background: #161616;
+        color: #dddddd;
+        height: 100%;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-family: monospace; 
+    }
+    .hora {
+        font-size: 10em;
+    }
+    .data {
+        font-size: 4em;
+    }
+    @media screen and (max-width: 800px) {
+        .hora {
+           font-size: 8em;
+        }        
+        .data {
+            font-size: 2.5em;
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .container {
+            height: calc(100vh - 50px);
+        }
+        .hora {
+           font-size: 5.5em;
+        }        
+        .data {
+            font-size: 2.5em;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hora"></div>
+        <div class="data"></div>
+    </div>
+
+    <script>
+        function doisDigitos(n) {
+            return (n < 10) ? "0" + n : n
+        }
+
+        function mostraRelogio() {
+            const date = new Date()
+            let h = (date.getUTCHours()-3) // 0 - 23
+            let m = date.getMinutes() // 0 - 59
+            let s = date.getSeconds() // 0 - 59
+            
+            if (h==0) h=12
+            if (h<0) h=24+h
+            
+            $('.hora').html(doisDigitos(h) + ":" + doisDigitos(m) + ":" + doisDigitos(s))
+
+            let dia = date.getDate()
+            let mes = (date.getMonth()+1)
+            let ano = date.getFullYear()
+            $('.data').html(doisDigitos(dia) + '/' + doisDigitos(mes) + '/' + ano)
+            // $('.data').html(dia + '/' + mes + '/' + ano)
+            
+            setTimeout(mostraRelogio, 1000)            
+        }
+
+        $(function(){
+            mostraRelogio()
+        })
+    </script>
+</body>
+</html>
